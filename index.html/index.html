@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#7c3aed"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="style.css"><title>Jigsaw Joy</title>
+</head>
+<body>
+<header>
+  <div><h1>🧩 Jigsaw Joy</h1><p id="subtitle">เกมจิ๊กซอว์ลากหรือแตะสลับชิ้น</p></div>
+  <button id="installBtn" hidden>📲 ติดตั้ง</button>
+</header>
+
+<main>
+<!-- หน้าหลัก -->
+<section id="scr-menu" class="screen">
+  <div class="card center">
+    <div class="whoami" id="whoami"></div>
+    <div class="menu">
+      <button class="menu-btn primary" data-go="login"><span>▶</span><div><b>เริ่มเกม</b><small>ลงชื่อเข้าเล่น</small></div></button>
+      <button class="menu-btn" data-go="stats"><span>📊</span><div><b>ประวัติการเล่นและสถิติเวลา</b><small>แยกตามขนาดช่อง</small></div></button>
+      <button class="menu-btn" data-go="help"><span>📖</span><div><b>วิธีการเล่น</b><small>อ่านก่อนเริ่มเล่น</small></div></button>
+    </div>
+  </div>
+</section>
+
+<!-- หน้าลงชื่อเข้าเล่น -->
+<section id="scr-login" class="screen" hidden>
+  <div class="card center">
+    <h2>👤 ลงชื่อเข้าเล่น</h2>
+    <p class="hint">ใส่ชื่อของคุณ เพื่อบันทึกประวัติและสถิติเวลาของแต่ละคน</p>
+    <input id="nameInput" class="text" type="text" maxlength="20" placeholder="ชื่อผู้เล่น" autocomplete="off">
+    <div id="loginErr" class="err"></div>
+    <div id="recent" class="chips"></div>
+    <div class="row">
+      <button class="btn primary" id="loginBtn">เข้าเล่น ▶</button>
+      <button class="btn" data-go="menu">← กลับ</button>
+    </div>
+  </div>
+</section>
+
+<!-- หน้าเล่นเกม -->
+<section id="scr-game" class="screen" hidden>
+  <div class="topbar"><button class="btn" id="backMenu">← เมนูหลัก</button><span class="badge" id="playerBadge"></span></div>
+  <section class="controls">
+    <label class="upload">🖼️ เลือกรูป<input id="imageInput" type="file" accept="image/*"></label>
+    <label>ขนาด<select id="pieces"></select></label>
+    <button id="start">▶ เริ่มเกมใหม่</button><button id="shuffle">🔀 สลับ</button>
+    <div class="stats"><span>📐 <b id="sizeLabel">4×4</b></span><span>⏱️ <b id="time">00:00</b></span><span>🔄 <b id="moves">0</b></span></div>
+  </section>
+  <section class="game"><div id="board"></div><div id="message" class="message"></div></section>
+</section>
+
+<!-- หน้าประวัติและสถิติ -->
+<section id="scr-stats" class="screen" hidden>
+  <div class="card">
+    <div class="topbar"><button class="btn" data-go="menu">← เมนูหลัก</button><h2>📊 ประวัติและสถิติเวลา</h2></div>
+    <div class="row wrap">
+      <div class="seg" id="scopeSeg">
+        <button data-scope="me">เฉพาะฉัน</button><button data-scope="all">ทุกคน</button>
+      </div>
+    </div>
+    <div class="tabs" id="sizeTabs"></div>
+    <div id="statsBody"></div>
+    <div class="row"><button class="btn danger" id="clearBtn">🗑️ ล้างประวัติของฉัน</button></div>
+  </div>
+</section>
+
+<!-- หน้าวิธีการเล่น -->
+<section id="scr-help" class="screen" hidden>
+  <div class="card">
+    <div class="topbar"><button class="btn" data-go="menu">← เมนูหลัก</button><h2>📖 วิธีการเล่น</h2></div>
+    <ol class="steps">
+      <li><b>ลงชื่อเข้าเล่น</b> — กด “เริ่มเกม” แล้วใส่ชื่อของคุณ ระบบจะจำชื่อไว้ในเครื่อง</li>
+      <li><b>เลือกรูป</b> — กด “🖼️ เลือกรูป” เพื่อใช้รูปของคุณเอง (ถ้าไม่เลือกจะใช้รูปตัวอย่าง)</li>
+      <li><b>เลือกขนาดช่อง</b> — ตั้งแต่ 3×3 (9 ช่อง) ไปจนถึง 8×8 (64 ช่อง) ยิ่งช่องมากยิ่งยาก</li>
+      <li><b>สลับชิ้น</b> — แตะชิ้นหนึ่งแล้วแตะอีกชิ้นเพื่อสลับตำแหน่ง หรือลากชิ้นไปวางทับอีกชิ้น</li>
+      <li><b>ต่อให้ครบ</b> — เมื่อทุกชิ้นอยู่ที่ถูกต้อง เกมจะหยุดเวลาและบันทึกผลให้อัตโนมัติ</li>
+      <li><b>ดูสถิติ</b> — ไปที่ “ประวัติการเล่นและสถิติเวลา” เพื่อดูเวลา จำนวนครั้งที่สลับ และขนาดช่องที่เล่น แยกตามขนาด</li>
+    </ol>
+    <p class="hint">💡 เคล็ดลับ: เริ่มจากมุมและขอบของภาพก่อน แล้วค่อยเก็บส่วนตรงกลาง • ข้อมูลประวัติเก็บในเครื่องนี้/เบราว์เซอร์นี้เท่านั้น</p>
+    <div class="row"><button class="btn primary" data-go="login">▶ เริ่มเกม</button></div>
+  </div>
+</section>
+</main>
+<footer>Jigsaw Joy • เล่นแบบออฟไลน์ได้หลังติดตั้ง PWA</footer>
+<script src="script.js"></script>
+</body></html>
